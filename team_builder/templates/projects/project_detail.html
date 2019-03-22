@@ -1,0 +1,91 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block body %}
+
+
+      <table class="td-header">
+        <tr>
+          <td><h2>Project</h2></td>
+          <td class="icon-on-right">
+                          {% include "projects/project_control_buttons.html" %}
+          </td><td>
+            {% if request.user == object %}
+            <form action="{% url 'profile_update' profile_id=object.id %}" method="get">
+            <button class="button-primary icon-on-left" type="submit">Edit</button>
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+      </table>
+
+        <ul style="list-style: none">
+        <li><h2>{{ object.name }}</h2></li>
+        <li>URL: <a href="{{ object.url }}">{{ object.url }}</a></li>
+        <li>Description: {{ object.description}}</li>
+        <li>Start date: {{ object.start_date }}</li>
+        {% if object.end_date %}
+        <li>End date: {{ object.end_date }}</li>
+        {% endif %}
+            <li>Owner: <a href="{{ project.owner.get_absolute_url }}">{{ project.owner.username }}</a></li>
+        </ul>
+
+     <h3>Positions Available</h3>
+     <table class="u-full-width circle--table table-striped">
+        <thead>
+          <tr>
+            <th>Position</th>
+            <th>Skills Needed</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for position in object.position_set.all %}
+          <tr class="clickable-row" data-href="{{ position.get_absolute_url }}">
+            <td>
+                <h5>{{ position }}</h5>
+            </td>
+            <td>
+                {{ position.related_skills.all|join:", " }}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+    <h3>Participants</h3>
+     <table class="u-full-width circle--table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Start Date</th>
+            {% if request.user == project.owner %}
+            <th>Status</th>
+            <th></th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+        {% for participant in participant_list %}
+          <tr class="clickable-row
+            {% if request.user == project.owner and participant.status == 'member' %} table-success
+            {% elif participant.status == 'pending' %} table-primary{% endif %}" data-href="{{ participant.user.get_absolute_url }}">
+            <td>
+                <h5>{{ participant.user.username }}</h5>
+            </td>
+            <td>
+                {{ participant.position.position_name }}
+            </td>
+            <td>{{ participant.start_date|date }}</td>
+            {% if request.user == project.owner %}
+            <td>
+            {{ participant.status|title }}
+            </td>
+            <td>{% include 'projects/user_control_buttons.html' %}</td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+{% endblock %}

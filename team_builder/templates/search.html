@@ -1,0 +1,90 @@
+{% extends 'layout.html' %}
+{% load rules %}
+
+{% block body %}
+
+<h1>Search Results</h1>
+
+<h2>Results matching query: {{ search_terms }}</h2>
+{% if project_results|length > 0 %}
+<h3>Projects</h3>
+<table class="u-full-width circle--table table-striped">
+<thead>
+  <tr>
+    <th>Project</th>
+    <th>Owner</th>
+    <th>Positions</th>
+    <th></th>
+  </tr>
+</thead>
+<tbody>
+  {% for project in project_results %}
+  <tr class="clickable-row" data-href="{{ project.get_absolute_url }}">
+      <td>{{ project.name }}</td>
+      <td><a href="{% url 'profile' profile_id=project.owner.id %}">{{ project.owner.username }}</td>
+      <td>{{ project.position_set.all|join:"," }}</td>
+      <td>{% include "projects/project_control_buttons.html" %}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+{% if position_results|length > 0 %}
+<h3>Positions</h3>
+<table class="u-full-width circle--table table-striped">
+    <thead>
+        <tr>
+            <th>Position</th>
+            <th>Project</th>
+            <th>Skills Needed</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for position in position_results %}
+        <tr class="clickable-row" data-href="{{ position.get_absolute_url }}">
+            <td>
+                <h5>{{ position }}</h5>
+            </td>
+            <td>
+                {{ position.project }}
+            </td>
+            <td>
+                {{ position.related_skills.all|join:", " }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if user_results|length > 0 %}
+<h3>Users</h3>
+<table class="u-full-width circle--table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Projects</th>
+            <th>Skills</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in user_results %}
+            <tr class="clickable-row" data-href="{{ user.get_absolute_url }}">
+                <td>
+                    <h5>
+                        {{ user.username }}</h5>
+                </td>
+                <td>
+                    {{ user.project_set.all|join:", " }}
+                </td>
+                <td>
+                    {{ user.skills.all|join:", " }}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>{% endif %}
+
+
+{% endblock %}

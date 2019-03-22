@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+{% load rules %}
+{% load notifications_tags %}
+{% notifications_unread as unread_count %}
+
+{% block body %}
+
+{# IF logged in show this else show link to signup #}
+
+<h1>Notifications</h1>
+<table class="u-full-width circle--table table-striped">
+<thead>
+    <tr>
+      <th>New Notifications</th>
+      <th>Sent</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+</thead>
+<tbody>
+{% for notice in user.notifications.all %}
+ <tr {% if notice.unread %}
+     class="table-success"
+ {% endif %}>
+  <td>{{ notice.actor }}{{ notice.verb }}{% if notice.target %} of {{ notice.target }}{% endif %}
+  </td>
+  <td>{{ notice.timesince }} ago</td>
+  <td>
+      {% if not notice.unread %}
+        Read
+      {% endif %}
+  </td>
+  <td>
+      <form action="{{ notice.action_object.project.get_absolute_url }}" method="get">
+          {% csrf_token %}
+          <button class="button-primary icon-on-left" type="submit">View</button>
+      </form>
+  </td>
+  <td>
+    {% if notice.unread %}
+        <form action="{% url 'notifications:mark_as_read' slug=notice.id|add:'110909' %}" method="post">
+            {% csrf_token %}
+            <button class="button-primary icon-on-left" type="submit">Mark Read</button>
+        </form>
+    {% else %}
+        <form action="{% url 'notifications:delete' slug=notice.id|add:'110909' %}" method="post">
+            {% csrf_token %}
+            <button class="button-primary icon-on-left" type="submit">Delete</button>
+        </form>
+    {% endif %}
+  </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% endblock %}

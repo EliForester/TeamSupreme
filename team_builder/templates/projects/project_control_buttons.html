@@ -1,0 +1,27 @@
+{% load rules %}
+
+{% has_perm 'team_builder.edit_project' user project as can_edit_project %}
+{% has_perm 'team_builder.leave_project' user project as can_leave_project %}
+{% has_perm 'team_builder.join_project' user project as can_join_project %}
+
+{% if user.is_authenticated %}
+    {% if can_edit_project %}
+        <form action="{% url 'project_update' project_id=project.id %}" method="get">
+            <button class="button-primary icon-on-right" type="submit">Edit</button>
+        </form>
+    {% endif %}
+
+    {% if can_join_project %}
+        <form action="{% url 'create_application' project_id=project.id %}" method="post">
+            {% csrf_token %}
+            <button class="button-primary icon-on-right" type="submit">Join</button>
+        </form>
+    {% endif %}
+
+    {% if can_leave_project %}
+        <form action="{% url 'clear_application' project_id=project.id %}" method="post">
+            {% csrf_token %}
+            <button class="button-primary icon-on-right" type="submit">Leave</button>
+        </form>
+    {% endif %}
+{% endif %}

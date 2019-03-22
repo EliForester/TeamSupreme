@@ -1,0 +1,32 @@
+{% with request.resolver_match.view_name as view_name %}
+{% load static %}
+{% load rules %}
+
+{% has_perm 'team_builder.edit_project' user project as can_edit_project %}
+{% has_perm 'team_builder.join_project' user project as can_join_project %}
+
+{% if user.is_authenticated %}
+    {% if can_edit_project %}
+            {% if view_name == 'project_detail' %}
+                <form action="{% url 'project_update' project_id=project.id %}" method="get">
+                    <input type="image" src="{% static 'images/icons/effective.32.png' %}" border="0" alt="Edit" title="Edit"/>
+                </form>
+            {% else %}
+                <form action="{% url 'project_detail' project_id=project.id %}" method="get">
+                    <input type="image" src="{% static 'images/icons/eye.32.png' %}" border="0" alt="View" title="View"/>
+                </form>
+            {% endif %}
+    {% elif can_join_project %}
+            <form action="{% url 'create_application' project_id=project.id %}" method="post">
+                {% csrf_token %}
+                <input type="image" src="{% static 'images/icons/connection.32.png' %}" border="0" alt="Apply" title="Apply"/>
+            </form>
+    {% else %}
+        <form action="{% url 'create_application' project_id=project.id %}" method="post">
+            {% csrf_token %}
+            <button class="button-primary icon-on-left" type="submit">Join</button>
+        </form>
+    {% endif %}
+{% endif %}
+
+{% endwith %}

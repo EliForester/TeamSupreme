@@ -1,0 +1,23 @@
+{% load rules %}
+
+{% has_perm 'team_builder.edit_project' request.user project as can_edit_project %}
+
+{% if user.is_authenticated %}
+    {% if can_edit_project %}
+        {% if participant.status == 'member' %}
+                <form action="{% url 'participant_update' participant_id=participant.id action='retire' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Retire</button>
+                </form>
+        {% elif participant.status == 'pending' %}
+                    <form action="{% url 'participant_update' participant_id=participant.id action='approve' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Approve</button>
+                    </form>
+                    <form action="{% url 'participant_update' participant_id=participant.id action='reject' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Reject</button>
+                    </form>
+        {% endif %}
+    {% endif %}
+{% endif %}

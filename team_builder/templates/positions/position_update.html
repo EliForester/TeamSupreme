@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+    <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="button-primary" type="submit">Save</button>
+    </form>
+
+    {% if request.user == position.project.owner %}
+        <form action="{% url 'skill_add' referrer='position' referrer_id=position.id %}" method="get">
+            {% csrf_token %}
+            <button class="button-primary icon-on-left" type="submit">Add Skill</button>
+        </form>
+    {% endif %}
+
+{% endblock %}

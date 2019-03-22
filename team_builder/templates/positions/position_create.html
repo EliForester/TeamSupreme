@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div class="grid-70">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{ position_form.as_p }}
+    <button class="button-primary" type="submit">Create</button>
+    </form>
+</div>
+
+{% endblock %}

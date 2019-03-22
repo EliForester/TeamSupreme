@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% load rules %}
+
+{% block body %}
+<table class="u-full-width circle--table table-striped">
+<thead>
+  <tr>
+    <th>Project</th>
+    <th>Owner</th>
+    <th>Positions</th>
+    <th></th>
+  </tr>
+</thead>
+<tbody>
+  {% for project in object_list %}
+  {% has_perm 'team_builder.edit_project' user project as can_edit_project %}
+  {% has_perm 'team_builder.leave_project' user project as can_leave_project %}
+  {% has_perm 'team_builder.join_project' user project as can_join_project %}
+  <tr class="clickable-row" data-href="{{ project.get_absolute_url }}">
+      <td>{{ project.name }}</td>
+      <td><a href="{% url 'profile' profile_id=project.owner.id %}">{{ project.owner.username }}</td>
+      <td>{{ project.position_set.all|join:"," }}</td>
+      <td>{% include "projects/project_control_buttons.html" %}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

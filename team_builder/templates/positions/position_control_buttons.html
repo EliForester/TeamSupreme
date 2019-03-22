@@ -1,0 +1,30 @@
+{% load rules %}
+
+{% has_perm 'team_builder.edit_delete_position' user position as can_edit_delete_position %}
+{% has_perm 'team_builder.join_position' user position as can_join_position %}
+{% has_perm 'team_builder.leave_position' user position as can_leave_position %}
+
+{% if user.is_authenticated %}
+    {% if can_edit_delete_position %}
+        <form action="{% url 'position_update' position_id=position.id %}" method="get">
+            <button class="button-primary icon-on-left" type="submit">Edit</button>
+        </form>
+        <form action="{% url 'position_delete' position_id=position.id %}" method="get">
+            <button class="button-primary icon-on-left" type="submit">Delete</button>
+        </form>
+    {% endif %}
+
+    {% if can_join_position %}
+        <form action="{% url 'participant_create' position_id=position.id %}" method="post">
+            {% csrf_token %}
+            <button class="button-primary icon-on-left" type="submit">Join</button>
+        </form>
+    {% endif %}
+
+    {% if can_leave_position %}
+        <form action="{% url 'participant_delete' position_id=position.id %}" method="post">
+            {% csrf_token %}
+            <button class="button-primary icon-on-left" type="submit">Leave</button>
+        </form>
+    {% endif %}
+{% endif %}

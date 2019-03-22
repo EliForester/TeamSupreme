@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div class="grid-70">
+    <h1>{{ object.position_name }}</h1>
+    <h2>Project: {{ object.project.name }}</h2>
+    <table>
+        <tr>
+            <th>Staff Required</th>
+            <th>Current Staff</th>
+        </tr>
+        <tr>
+            <td>{{ object.head_count }}</td>
+            <td>{{ object.participant_set.all|length }}</td>
+        </tr>
+    </table>
+
+    <h3>Skills Required</h3>
+    {% if object.related_skills %}
+    <table class="circle--table table-striped">
+        <thead>
+          <tr>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for skill in object.related_skills.all %}
+          <tr class="clickable-row" data-href="{% url 'skill_detail' skill_id=skill.id %}">
+            <td><h5>{{ skill.name }}</h5>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+    No special skills required.
+    {% endif %}
+    <br>
+    {% include 'positions/position_control_buttons.html' %}
+    <form action="{% url 'project_detail' project_id=object.project.id %}">
+        <button class="button-primary" type="submit">Return to Project</button>
+    </form>
+</div>
+
+{% endblock %}

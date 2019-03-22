@@ -1,0 +1,78 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<table class="td-header">
+    <tr>
+        <td>
+            <h2>Profile</h2>
+        </td>
+        <td class="icon-on-right">
+            {% if request.user == object %}
+            <form action="{% url 'profile_update' profile_id=object.id %}" method="get">
+                <button class="button-primary icon-on-left" type="submit">Edit</button>
+            </form>
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
+<h1 class="circle--input--h1">{{ object.username }}</h1>
+
+<h2>Bio</h2>
+<div class="circle--article--body">
+    {{ object.bio }}
+</div>
+
+<h2>Profile</h2>
+
+<div class="circle--article--body">
+    {{ object.profile }}
+</div>
+
+<h2>Projects</h2>
+
+<table class="u-full-width circle--table table-striped">
+    <thead>
+        <tr>
+            <th>Project Title</th>
+            <th class="circle--cell--right">Project Needs</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for project in user_projects %}
+        <tr class="clickable-row" data-href="{% url 'project_detail' project_id=project.id %}">
+            <td>
+                <h5>{{ project.name }}</h5>
+            </td>
+            <td class="circle--cell--right">
+              <span class="secondary-label">{{ project.position_set.all|join:", " }}</span>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Skills</h2>
+
+<table class="u-full-width circle--table table-striped" title="Skills">
+    <thead>
+        <tr>
+            <th>Skill</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for skill in object.skills.all %}
+        <tr class="clickable-row" data-href="{% url 'skill_detail' skill_id=skill.id %}">
+            <td>
+              <h5>{{ skill.name }}</h5>
+            </td>
+            <td>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
