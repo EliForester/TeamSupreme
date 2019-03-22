@@ -22,7 +22,7 @@ Created on Python 3
 
 requirements.txt
 ```
-Django==2.1.5
+Django==2.1.7
 django-model-utils==3.1.2
 django-notifications-hq==1.5.0
 jsonfield==2.0.2
