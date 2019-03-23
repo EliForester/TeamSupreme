@@ -2,19 +2,18 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.db.models import Q
-from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import reverse, get_object_or_404
+from django.http import Http404, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, reverse
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
-from django.views.generic import CreateView, ListView, UpdateView, \
-    DetailView, DeleteView, View
-
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView, View)
 from rules.contrib.views import PermissionRequiredMixin
 
-from .forms import UserCreateForm, UserProfileUpdateForm, PositionFormSet, \
-    SkillCreateForm
-from .models import User, Project, Skill, Participant, Position
+from .forms import (PositionFormSet, SkillCreateForm, UserCreateForm,
+                    UserProfileUpdateForm)
+from .models import Participant, Position, Project, Skill, User
 
 
 class SignUpView(CreateView):

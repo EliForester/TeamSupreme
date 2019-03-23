@@ -1,9 +1,10 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.core.files.images import get_image_dimensions
 from django.core.files.uploadedfile import UploadedFile
-from django.forms import ModelForm, Textarea, inlineformset_factory, ImageField, ValidationError, FileInput
+from django.forms import (FileInput, ImageField, ModelForm, Textarea,
+                          ValidationError, inlineformset_factory)
 
-from .models import User, Project, Skill, Position
+from .models import Position, Project, Skill, User
 
 VALID_IMG_FORMATS = ['image/jpeg', 'image/png', 'image/gif']
 VALID_IMG_WIDTH = 200

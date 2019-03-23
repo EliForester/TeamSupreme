@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Skill, Project, User, Position, Participant
+from .models import Participant, Position, Project, Skill, User
 
 admin.site.register(Skill)
 admin.site.register(Project)

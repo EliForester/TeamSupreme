@@ -13,17 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf import settings
-from django.contrib import admin
-from django.urls import path, include, reverse_lazy, re_path
-from django.views.generic.base import TemplateView
-from django.contrib.auth.views import LoginView, LogoutView
-from django.conf.urls.static import static
 import notifications.urls
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.contrib.auth.views import LogoutView
+from django.urls import include, path, re_path
 
 from . import views
 
 urlpatterns = [
+    path('', views.HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
 
 # Account stuff (sign-up, sign-in, etc)
@@ -37,9 +37,6 @@ urlpatterns = [
          views.ProfileUpdateView.as_view(), name='profile_update'),
 
 # Project creation, update, etc
-
-    path('', views.HomeView.as_view(), name='home'),
-
     path('projects/list/', views.ProjectView.as_view(),
          name='projects'),
 
@@ -57,6 +54,7 @@ urlpatterns = [
          views.ProjectUpdateView.as_view(),
          name='project_update'),
 
+# Position creation, update, etc
     path('projects/<int:project_id>/position/add/', views.PositionAddView.as_view(),
          name='position_add'),
 
@@ -87,7 +85,7 @@ urlpatterns = [
     re_path('skill/(?P<referrer>user|position)/(?P<referrer_id>\d+)/add/',
             views.SkillCreateView.as_view(), name='skill_add'),
 
-# Notification logic
+# Notifications
     path('notifications/', include(notifications.urls, namespace='notifications'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

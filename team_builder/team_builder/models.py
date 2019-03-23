@@ -1,22 +1,18 @@
-from datetime import date
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
-    PermissionsMixin
-from django.db import models
-from django.utils import timezone
-from django.shortcuts import reverse
-
-import uuid
 import os
+import uuid
+from datetime import date
 
-message_levels = {'INFO': 1,
-                  'SUCCESS': 2,
-                  'WARNING': 3}
+from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
+                                        PermissionsMixin)
+from django.db import models
+from django.shortcuts import reverse
+from django.utils import timezone
 
 
 def get_file_path(instance, filename):
     '''
     Formatting file path of avatar data
-    :param instance: 
+    :param instance: Model instance
     :param filename: Name of uploaded file
     :return: File path for upload_to
     '''
