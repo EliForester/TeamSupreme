@@ -47,8 +47,8 @@ class UserProfileUpdateForm(ModelForm):
         model = User
         fields = ['bio', 'avatar', 'profile', 'skills']
         widgets = {
-            'bio': Textarea(attrs={'rows': 5, 'cols': 5}),
-            'profile': Textarea(attrs={'rows': 10, 'cols': 20})
+            'bio': Textarea(attrs={'rows': 4, 'cols': 5}),
+            'profile': Textarea(attrs={'rows': 5, 'cols': 20})
         }
 
 

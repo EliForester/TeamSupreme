@@ -110,6 +110,9 @@ class Position(models.Model):
     def get_absolute_url(self):
         return reverse('position_detail', args=[self.id])
 
+    def get_member_count(self):
+        return self.participant_set.filter(status='member').count()
+
 
 class Participant(models.Model):
     position = models.ForeignKey(Position, on_delete=models.CASCADE)

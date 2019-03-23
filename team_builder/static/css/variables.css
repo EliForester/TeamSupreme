@@ -11,7 +11,6 @@
   padding: 0 0 0px 0;
 }
 
-/* line 13, ../sass/circle/components/tables.sass */
 .circle--table td {
   padding: 4px 0;
   vertical-align: middle;
@@ -23,7 +22,6 @@
   color: dimgrey;
 }
 
-/* line 4, ../sass/circle/core/buttons.sass */
 .button,
 button,
 input[type="submit"],
@@ -52,7 +50,6 @@ input[type="button"] {
   transition: 0.2s;
 }
 
-/* line 105, ../sass/circle/core/buttons.sass */
 .button.button-text, input[type="submit"].button-text,
 input[type="reset"].button-text,
 input[type="button"].button-text, input[type="submit"].button-text:hover, input[type="submit"].button-text:focus,
@@ -69,14 +66,12 @@ button.button-text {
 
 }
 
-/* line 4, ../sass/circle/core/tables.sass */
 th, td {
   padding: 0px;
   text-align: left;
   border-bottom: 1px solid #e1e1e1;
 }
 
-/* line 10, ../sass/circle/core/spacing.sass */
 pre, blockquote, dl, figure, table, p, ul, ol, form {
   display: inline;
   margin-top: 0rem;
@@ -126,7 +121,6 @@ h2 + circle--article--body {
   margin-top: 20px;
 }
 
-/* line 4, ../sass/circle/core/type.sass */
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   margin-bottom: 2rem;
@@ -135,7 +129,6 @@ h1, h2, h3, h4, h5, h6 {
   color: #222;
 }
 
-/* line 24, ../sass/circle/core/forms.sass */
 input[type="email"], input[type="number"], input[type="search"], input[type="text"], select, input[type="tel"], input[type="url"], input[type="password"] {
   background: #fff;
   width: 100%;
@@ -156,6 +149,29 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
   -ms-transition: 0.2s;
   -o-transition: 0.2s;
   transition: 0.2s;
+}
+
+#id_skills, #id_related_skills {
+  background: #fff;
+  width: 100%;
+  color: #666;
+  border-radius: 8px;
+  border: 1px solid #c4d8d7;
+  padding: 15px;
+  margin-bottom: 15px;
+  outline: none;
+  box-sizing: border-box;
+  font-size: 1.6rem;
+  font-family: "Source Sans Pro", sans-serif;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -ms-transition: 0.2s;
+  -o-transition: 0.2s;
+  transition: 0.2s;
+  height: 200px;
 }
 
 /* line 95, ../sass/circle/core/forms.sass */
@@ -275,4 +291,20 @@ body {
 
 button, .button {
     margin-bottom: 0rem;
+}
+
+textarea {
+  padding: 15px;
+  border: 1px solid #70566D;
+  box-shadow: none;
+  box-sizing: border-box;
+  min-height: 100px;
+  width: 100%;
+  font-size: 1.6rem;
+  line-height: 1.8;
+  border-radius: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
 }

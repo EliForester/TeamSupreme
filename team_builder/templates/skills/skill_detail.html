@@ -8,7 +8,7 @@
 
 <h2>Positions</h2>
 <i>Positions that require this skill.<br>
-Click to view Project.</i>
+Click to view Project.</i><br>
 <table class="u-full-width circle--table table-striped">
     <thead>
       <tr>
@@ -28,4 +28,27 @@ Click to view Project.</i>
     </tbody>
 </table>
 
+<h2>Users</h2>
+<i>Users who have this skill.<br>
+Click to view Profile.</i><br>
+<table class="u-full-width circle--table table-striped">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Projects</th>
+            <th>Positions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for user in object.user_set.all %}
+      <tr class="clickable-row" data-href="{% url 'profile' profile_id=user.id %}">
+        <td>
+            <h5>{{ user.username }}</h5>
+        </td>
+          <td>{{ user.project_set.all|join:", " }}</td>
+        <td class="circle--cell--right">{{ user.position_set.all|join:", " }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
