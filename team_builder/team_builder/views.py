@@ -4,7 +4,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, reverse
+from django.shortcuts import get_object_or_404, render_to_response, reverse
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
@@ -12,7 +12,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView, View)
 from rules.contrib.views import PermissionRequiredMixin
 
-from .forms import (PositionFormSet, SkillCreateForm, UserCreateForm,
+from .forms import (PositionFormSet, SkillCreateForm, SkillFilterForm, UserCreateForm,
                     UserProfileUpdateForm)
 from .models import Participant, Position, Project, Skill, User
 
@@ -96,6 +96,29 @@ class ProjectView(ListView):
         else:
             return self.queryset
 
+
+class ProjectFilterView(ListView):
+    template_name = 'projects/project_filter.html'
+    queryset = Project.objects.all()
+    form_class = SkillFilterForm
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        skill_filter_form = SkillFilterForm()
+        context['skill_filter_form'] = skill_filter_form
+        project_list = self.get_queryset()
+        if self.request.GET.getlist('skills'):
+            skill_filter_ids = self.request.GET.getlist('skills')
+            context['skill_filters'] = [ 
+                skill['name'] for skill in Skill.objects.filter(
+                id__in=skill_filter_ids).values() 
+            ]
+            project_list = project_list.filter(
+                position__related_skills__id__in=skill_filter_ids
+            ).distinct()
+        context['project_list'] = project_list
+        print(context)
+        return context        
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     template_name = 'projects/project_create.html'

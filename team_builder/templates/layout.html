@@ -85,12 +85,16 @@
           <li><a href="{% url 'projects_filter' filter_type='own' %}">Own</a></li>
           <li><a href="{% url 'projects_filter' filter_type='member' %}">Member</a></li>
           <li><a href="{% url 'projects_filter' filter_type='join' %}">Join</a></li>
+        {% endif %}
+          <li><a href="{% url 'projects_skill_filter' %}">Filter</a></li>
+        {% if user.is_authenticated %}
           <li>
             <a href="{% url 'notifications:all' %}">
               <img src="{% static 'images/icons/open-envelope-24.png' %}">{% live_notify_badge badge_class="badge" %}
             </a>
           </li>
         {% endif %}
+
       </ul>
     </nav>
   </div>

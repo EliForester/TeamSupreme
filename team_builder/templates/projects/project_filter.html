@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<h2>Filter Projects</h2>
+
+<form method="get">
+    {% csrf_token %}
+    {{ skill_filter_form.as_p }}
+    <button class="button-primary" type="submit">Filter</button>
+</form>
+<br>
+<i>Projects filtered by skills: {% if skill_filters %}{{ skill_filters }}{% else %}All{% endif %}</i>
+<br>
+{% if project_list %}
+<table class="u-full-width circle--table table-striped">
+<thead>
+  <tr>
+    <th>Project</th>
+    <th>Owner</th>
+    <th>Positions</th>
+  </tr>
+</thead>
+<tbody>
+  {% for project in project_list %}
+  <tr class="clickable-row" data-href="{{ project.get_absolute_url }}">
+      <td>{{ project.name }}</td>
+      <td><a href="{% url 'profile' profile_id=project.owner.id %}">{{ project.owner.username }}</td>
+      <td>{{ project.position_set.all|join:"," }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+{% endblock %}

@@ -43,6 +43,9 @@ urlpatterns = [
     re_path(r'^projects/list/(?P<filter_type>own|join|member)/$',
             views.ProjectView.as_view(), name='projects_filter'),
 
+    path('projects/filter/', views.ProjectFilterView.as_view(),
+         name='projects_skill_filter'),
+
     path('projects/detail/<int:project_id>/', views.ProjectDetailView.as_view(),
          name='project_detail'),
 
