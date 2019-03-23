@@ -1,20 +1,20 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, ListView, UpdateView, \
-    DetailView, DeleteView, View
+from django.contrib.auth.views import LoginView
+from django.db.models import Q
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import reverse, get_object_or_404
 from django.urls import reverse_lazy
-from django.contrib.auth.views import LoginView
-from rules.contrib.views import PermissionRequiredMixin
-from django.db.models import Q
-from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import login_required
-
 from django.utils import timezone
+from django.views.decorators.http import require_POST
+from django.views.generic import CreateView, ListView, UpdateView, \
+    DetailView, DeleteView, View
 
+from rules.contrib.views import PermissionRequiredMixin
+
+from .forms import UserCreateForm, UserProfileUpdateForm, PositionFormSet, \
+    SkillCreateForm
 from .models import User, Project, Skill, Participant, Position
-from .forms import UserCreateForm, UserProfileUpdateForm, PositionFormSet, SkillCreateForm
-
 
 
 class SignUpView(CreateView):
@@ -33,7 +33,6 @@ class SignInView(LoginView):
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
     template_name = 'profile.html'
-    login_url = 'signup'
     queryset = User.objects.all()
 
     def get_object(self, queryset=None):
@@ -50,7 +49,6 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     form_class = UserProfileUpdateForm
-    login_url = 'signin'
     template_name = 'profile_update.html'
     success_message = 'Profile updated!'
 
@@ -58,7 +56,8 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
         return self.request.user
 
     def get_success_url(self):
-        return reverse_lazy('profile', kwargs={'profile_id': self.request.user.id})
+        return reverse_lazy('profile',
+                            kwargs={'profile_id': self.request.user.id})
 
 
 class HomeView(ListView):
@@ -74,7 +73,7 @@ class ProjectView(ListView):
 
     def get_queryset(self):
         '''
-        Filtering the queryset based on the type of filter requested, or no filter
+        Filtering the queryset based on type of filter requested or no filter
         :return: queryset
         '''
 
@@ -103,7 +102,6 @@ class ProjectView(ListView):
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     template_name = 'projects/project_create.html'
     model = Project
-    login_url = 'signup'
     fields = ['name', 'description', 'url',]
 
     def get(self, request, *args, **kwargs):
@@ -111,7 +109,9 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         position_form = PositionFormSet()
-        return self.render_to_response(self.get_context_data(form=form,position_form=position_form))
+        return self.render_to_response(
+            self.get_context_data(form=form,
+                                  position_form=position_form))
 
     def form_valid(self, form, *args, **kwargs):
         new_project = form.instance
@@ -147,14 +147,12 @@ class ProjectDetailView(DetailView):
         context['participant_list'] = participant_list
         return context
 
-# find all where the position is in the list and is member
-# exclude all where status is pending retired and rejected but not user=user
-# remaining is members + the logged in user regardless of
 
-class ProjectUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class ProjectUpdateView(LoginRequiredMixin,
+                        PermissionRequiredMixin,
+                        UpdateView):
     template_name = 'projects/project_update.html'
     model = Project
-    login_url = 'signup'
     fields = ['name', 'description', 'url',]
     queryset = Project.objects.all()
     permission_required = 'team_builder.edit_project'
@@ -176,7 +174,6 @@ class ProjectUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
 class PositionAddView(LoginRequiredMixin, CreateView):
     template_name = 'positions/position_create.html'
     model = Position
-    login_url = 'signup'
     fields = ['position_name', 'head_count', 'related_skills',]
 
     def form_valid(self, form, *args, **kwargs):
@@ -200,7 +197,6 @@ class PositionDetailView(DetailView):
 class PositionUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'positions/position_update.html'
     model = Position
-    login_url = 'signup'
     fields = ['position_name', 'head_count', 'related_skills',]
     queryset = Position.objects.all()
 
@@ -211,7 +207,6 @@ class PositionUpdateView(LoginRequiredMixin, UpdateView):
 
 class PositionDeleteView(LoginRequiredMixin, DeleteView):
     model = Position
-    login_url = 'signup'
     fields = ['position_name', 'related_skills',]
     queryset = Position.objects.all()
     template_name = 'positions/position_confirm_delete.html'
@@ -222,7 +217,8 @@ class PositionDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         position = self.object
-        return reverse_lazy('project_update', kwargs={'project_id': position.project.id})
+        return reverse_lazy('project_update',
+                            kwargs={'project_id': position.project.id})
 
 
 class ParticipantCreateView(LoginRequiredMixin, View):
@@ -237,6 +233,7 @@ class ParticipantCreateView(LoginRequiredMixin, View):
         return HttpResponseRedirect(reverse('position_detail',
                                             args=[position_id]))
 
+
 @login_required
 @require_POST
 def participant_update_view(request, **kwargs):
@@ -247,25 +244,27 @@ def participant_update_view(request, **kwargs):
             participant.status = 'member'
             participant.start_date = timezone.now()
             participant.save()
-            return HttpResponseRedirect(reverse('project_detail',
-                                                kwargs={'project_id': participant.position.project.id}))
+            return HttpResponseRedirect(
+                reverse('project_detail',
+                        kwargs={'project_id': participant.position.project.id}))
         elif action == 'reject':
             participant.status = 'rejected'
             participant.save()
-            return HttpResponseRedirect(reverse('project_detail',
-                                                kwargs={'project_id': participant.position.project.id}))
+            return HttpResponseRedirect(
+                reverse('project_detail',
+                        kwargs={'project_id': participant.position.project.id}))
         elif action == 'retire':
             participant.status = 'retired'
             participant.save()
-            return HttpResponseRedirect(reverse('project_detail',
-                                                kwargs={'project_id': participant.position.project.id}))
+            return HttpResponseRedirect(
+                reverse('project_detail',
+                        kwargs={'project_id': participant.position.project.id}))
         else:
             return Http404('Unknown Action')
 
 
 class ParticipantDeleteView(LoginRequiredMixin, DeleteView):
     model = Participant
-    login_url = 'signup'
 
     def get_object(self, queryset=None):
         position = Position.objects.get(pk=self.kwargs['position_id'])
@@ -318,7 +317,8 @@ class SkillCreateView(CreateView):
         if referrer == 'user':
             return reverse('profile', kwargs={'profile_id': referrer_id})
         elif referrer == 'position':
-            return reverse('position_detail', kwargs={'position_id': referrer_id})
+            return reverse('position_detail',
+                           kwargs={'position_id': referrer_id})
         else:
             return Http404('Unknown referrer')
 
@@ -337,13 +337,16 @@ class SearchView(ListView):
             search_terms = search_terms.split(' ')
             for term in search_terms:
                 project_list = project_list.filter(
-                    Q(name__icontains=term)|Q(description__icontains=term)
+                    Q(name__icontains=term)|
+                    Q(description__icontains=term)
                 ).distinct()
                 position_list = position_list.filter(
-                    Q(position_name__icontains=term)|Q(related_skills__name__icontains=term)
+                    Q(position_name__icontains=term)|
+                    Q(related_skills__name__icontains=term)
                 ).distinct()
                 user_list = user_list.filter(
-                    Q(username__icontains=term)|Q(skills__name__icontains=term)
+                    Q(username__icontains=term)|
+                    Q(skills__name__icontains=term)
                 ).distinct()
             context['project_results'] = project_list
             context['position_results'] = position_list

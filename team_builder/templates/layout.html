@@ -27,6 +27,7 @@
   <link rel="stylesheet" href="{% static "css/global.css" %}">
   <link rel="stylesheet" href="{% static "css/variables.css" %}">
 
+
   <!-- JS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
@@ -84,13 +85,11 @@
           <li><a href="{% url 'projects_filter' filter_type='own' %}">Own</a></li>
           <li><a href="{% url 'projects_filter' filter_type='member' %}">Member</a></li>
           <li><a href="{% url 'projects_filter' filter_type='join' %}">Join</a></li>
-          {% if unread_count > 0 %}
-            <li>
-              <a href="{% url 'notifications:all' %}">
-                <img src="{% static 'images/icons/open-envelope-24.png' %}">{% live_notify_badge badge_class="badge" %}
-              </a>
-            </li>
-          {% endif %}
+          <li>
+            <a href="{% url 'notifications:all' %}">
+              <img src="{% static 'images/icons/open-envelope-24.png' %}">{% live_notify_badge badge_class="badge" %}
+            </a>
+          </li>
         {% endif %}
       </ul>
     </nav>
@@ -107,13 +106,12 @@
 
 <div class="grid-25 grid-push-5">
   {% if request.user.is_authenticated %}
-    {% if request.user.avatar %}
-      <h3>Signed in: {{ user.username }}!</h3>
+        <h3>Signed in: {{ user.username }}!</h3>
       <form action="{% url 'project_create' %}" method="get">
           {% csrf_token %}
           <button class="button-primary icon-on-right" type="submit">New Project+</button>
       </form>
-      <br>
+    {% if request.user.avatar %}
       <div class="circle--secondary--module">
         <div class="circle--primary--avatar">
           <img src="{{ request.user.avatar.url }}">

@@ -2,6 +2,25 @@
 {% load rules %}
 
 {% block body %}
+
+{% if not request.user.is_authenticated %}
+<div class="jumbotron">
+    <h1 class="display-4">Hello, stranger!</h1>
+    <p>Seems like you're either new here or not signed in!<br>
+        You can view projects but won't be able to view profiles until you're signed in.<br></p>
+    <hr class="my-4">
+    Click below to get started.<br>
+    <form action="{% url 'notifications:mark_as_read' slug=notice.id|add:'110909' %}" method="post">
+        {% csrf_token %}
+        <button class="button-primary icon-on-left" type="submit">Sign Up</button>
+    </form>
+    <form action="{% url 'notifications:mark_as_read' slug=notice.id|add:'110909' %}" method="post">
+        {% csrf_token %}
+        <button class="button-primary icon-on-left" type="submit">Sign In</button>
+    </form>
+</div>
+{% endif %}
+
 <table class="u-full-width circle--table table-striped">
 <thead>
   <tr>
@@ -20,7 +39,7 @@
       <td>{{ project.name }}</td>
       <td><a href="{% url 'profile' profile_id=project.owner.id %}">{{ project.owner.username }}</td>
       <td>{{ project.position_set.all|join:"," }}</td>
-      <td>{% include "projects/project_control_buttons.html" %}</td>
+      <td class="vert-aligned">{% include "projects/project_control_buttons.html" %}</td>
   </tr>
   {% endfor %}
   </tbody>

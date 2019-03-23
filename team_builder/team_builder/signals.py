@@ -1,11 +1,21 @@
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import pre_save
 from django.dispatch import receiver
-from .models import Participant
 from notifications.signals import notify
+
+from .models import Participant
 
 
 @receiver(pre_save, sender=Participant)
 def participant_notifier(sender, **kwargs):
+    '''
+    Checks presave Participant object.
+    If new:
+        send notice to project owner that someone wants to join
+    If updated from pending->member:
+        send notice to participant that appication was approved
+    If updated from pending->rejected:
+        send notice to participant that appication was rejected
+    '''
     participant = kwargs['instance']
     try:
         # If existing model was approved then send to applicant

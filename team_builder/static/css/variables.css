@@ -19,9 +19,8 @@
 
 .clickable-row td {
   cursor: pointer;
-  color: #9B7797;
-    vertical-align: middle;
-
+  vertical-align: middle;
+  color: dimgrey;
 }
 
 /* line 4, ../sass/circle/core/buttons.sass */
@@ -79,6 +78,7 @@ th, td {
 
 /* line 10, ../sass/circle/core/spacing.sass */
 pre, blockquote, dl, figure, table, p, ul, ol, form {
+  display: inline;
   margin-top: 0rem;
   margin-bottom: 0rem;
 }
@@ -122,7 +122,9 @@ table + h1 {
   margin-bottom: 20px;
 }
 
-h2 + circle--article--body { margin-top: 20px; }
+h2 + circle--article--body {
+  margin-top: 20px;
+}
 
 /* line 4, ../sass/circle/core/type.sass */
 h1, h2, h3, h4, h5, h6 {
@@ -269,4 +271,8 @@ body {
   font-weight: 400;
   font-family: "Source Sans Pro";
   color: #666;
+}
+
+button, .button {
+    margin-bottom: 0rem;
 }

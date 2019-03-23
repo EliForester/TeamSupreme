@@ -1,10 +1,9 @@
+from datetime import date
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
     PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.shortcuts import reverse
-from datetime import date
-
 
 import uuid
 import os

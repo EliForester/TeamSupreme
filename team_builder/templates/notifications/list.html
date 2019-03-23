@@ -8,6 +8,13 @@
 {# IF logged in show this else show link to signup #}
 
 <h1>Notifications</h1>
+
+<form action="{% url 'notifications:mark_all_as_read' %}" method="post">
+    {% csrf_token %}
+    <button class="button-primary icon-on-left" type="submit">Mark All Read</button>
+</form>
+
+
 <table class="u-full-width circle--table table-striped">
 <thead>
     <tr>

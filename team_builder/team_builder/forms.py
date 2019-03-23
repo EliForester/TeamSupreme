@@ -1,9 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
-from django.forms import ModelForm, Textarea, inlineformset_factory, ImageField, ValidationError, FileInput
 from django.core.files.images import get_image_dimensions
-from django.db.models.fields.files import ImageFieldFile
 from django.core.files.uploadedfile import UploadedFile
-
+from django.forms import ModelForm, Textarea, inlineformset_factory, ImageField, ValidationError, FileInput
 
 from .models import User, Project, Skill, Position
 
@@ -24,6 +22,10 @@ class UserProfileUpdateForm(ModelForm):
     avatar = ImageField(required=False, widget=FileInput)
 
     def clean_avatar(self):
+        '''
+        Make sure that avatar fits defined file format and size
+        :return: avatar file
+        '''
         avatar = self.cleaned_data.get('avatar', False)
         if avatar and isinstance(avatar, UploadedFile):
             if avatar.size > MAX_IMG_SIZE * 1024:
