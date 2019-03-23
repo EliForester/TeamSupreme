@@ -101,7 +101,7 @@ class Position(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     position_name = models.CharField(max_length=50)
     head_count = models.IntegerField(default=1)
-    related_skills = models.ManyToManyField(Skill)
+    related_skills = models.ManyToManyField(Skill, blank=True)
     participants = models.ManyToManyField(User, through='Participant')
 
     def __str__(self):

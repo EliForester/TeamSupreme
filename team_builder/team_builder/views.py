@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, reverse
@@ -16,17 +17,15 @@ from .forms import (PositionFormSet, SkillCreateForm, UserCreateForm,
 from .models import Participant, Position, Project, Skill, User
 
 
-class SignUpView(CreateView):
+class SignUpView(SuccessMessageMixin, CreateView):
     form_class = UserCreateForm
     template_name = 'registration/signup.html'
-    message = 'Account created! Please sign in.'
     success_url = reverse_lazy('home')
     success_message = 'User created! Please log in.'
 
 
 class SignInView(LoginView):
     template_name = 'registration/signin.html'
-    message = 'Successfully logged in!'
     success_url = reverse_lazy('home')
 
 
