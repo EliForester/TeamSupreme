@@ -29,7 +29,7 @@ class UserManager(BaseUserManager):
             raise ValueError('Email Required')
         print(username)
         user = self.models(
-            email = self.normalize_email(email),
+            email=self.normalize_email(email),
             username=username)
         user.set_password(password)
         user.save()
@@ -40,7 +40,7 @@ class UserManager(BaseUserManager):
             raise ValueError('Email Required')
 
         user = self.models(
-            email = self.normalize_email(email),
+            email=self.normalize_email(email),
             username=username)
         user.set_password(password)
         user.is_superuser = True
@@ -77,7 +77,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_long_name(self):
         return '{} {}'.format(self.username, self.email)
-    
+
     def get_absolute_url(self):
         return reverse('profile', args=[str(self.id)])
 

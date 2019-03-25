@@ -5,6 +5,7 @@ from django.forms import (FileInput, Form, ImageField, ModelForm, Textarea,
                           ValidationError, inlineformset_factory)
 from django.forms.fields import MultipleChoiceField
 from django.forms.widgets import SelectMultiple
+
 from .models import Position, Project, Skill, User
 
 VALID_IMG_FORMATS = ['image/jpeg', 'image/png', 'image/gif']
@@ -43,7 +44,7 @@ class UserProfileUpdateForm(ModelForm):
                     'Avatars should be within {} and {} pixels'.format(
                         str(VALID_IMG_WIDTH), str(VALID_IMG_HEIGHT)))
             return avatar
-        
+
     class Meta:
         model = User
         fields = ['bio', 'avatar', 'profile', 'skills']
@@ -54,13 +55,16 @@ class UserProfileUpdateForm(ModelForm):
 
 
 class PositionForm(ModelForm):
-    
+
     class Meta:
         model = Position
         exclude = ()
 
 
-PositionFormSet = inlineformset_factory(Project, Position, form=PositionForm, extra=2)
+PositionFormSet = inlineformset_factory(Project,
+                                        Position,
+                                        form=PositionForm,
+                                        extra=2)
 
 
 class SkillCreateForm(ModelForm):

@@ -1,7 +1,8 @@
 import rules
 
 """
-These rules control who is allowed to take actions, without object-level permissions
+These rules control who is allowed to take actions,
+    without object-level permissions
 I.e., project owner can edit the project, etc.
 """
 

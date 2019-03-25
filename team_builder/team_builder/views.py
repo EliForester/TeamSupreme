@@ -4,7 +4,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render_to_response, reverse
+from django.shortcuts import get_object_or_404, reverse
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
@@ -12,8 +12,8 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView, View)
 from rules.contrib.views import PermissionRequiredMixin
 
-from .forms import (PositionFormSet, SkillCreateForm, SkillFilterForm, UserCreateForm,
-                    UserProfileUpdateForm)
+from .forms import (PositionFormSet, SkillCreateForm, SkillFilterForm,
+                    UserCreateForm, UserProfileUpdateForm)
 from .models import Participant, Position, Project, Skill, User
 
 
@@ -109,21 +109,22 @@ class ProjectFilterView(ListView):
         project_list = self.get_queryset()
         if self.request.GET.getlist('skills'):
             skill_filter_ids = self.request.GET.getlist('skills')
-            context['skill_filters'] = [ 
+            context['skill_filters'] = [
                 skill['name'] for skill in Skill.objects.filter(
-                id__in=skill_filter_ids).values() 
+                    id__in=skill_filter_ids).values()
             ]
             project_list = project_list.filter(
                 position__related_skills__id__in=skill_filter_ids
             ).distinct()
         context['project_list'] = project_list
         print(context)
-        return context        
+        return context
+
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     template_name = 'projects/project_create.html'
     model = Project
-    fields = ['name', 'description', 'url',]
+    fields = ['name', 'description', 'url', ]
 
     def get(self, request, *args, **kwargs):
         self.object = None
@@ -174,7 +175,7 @@ class ProjectUpdateView(LoginRequiredMixin,
                         UpdateView):
     template_name = 'projects/project_update.html'
     model = Project
-    fields = ['name', 'description', 'url',]
+    fields = ['name', 'description', 'url', ]
     queryset = Project.objects.all()
     permission_required = 'team_builder.edit_project'
 
@@ -195,7 +196,7 @@ class ProjectUpdateView(LoginRequiredMixin,
 class PositionAddView(LoginRequiredMixin, CreateView):
     template_name = 'positions/position_create.html'
     model = Position
-    fields = ['position_name', 'head_count', 'related_skills',]
+    fields = ['position_name', 'head_count', 'related_skills', ]
 
     def form_valid(self, form, *args, **kwargs):
         new_position = form.instance
@@ -218,7 +219,7 @@ class PositionDetailView(DetailView):
 class PositionUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'positions/position_update.html'
     model = Position
-    fields = ['position_name', 'head_count', 'related_skills',]
+    fields = ['position_name', 'head_count', 'related_skills', ]
     queryset = Position.objects.all()
 
     def get_object(self, queryset=None):
@@ -228,7 +229,7 @@ class PositionUpdateView(LoginRequiredMixin, UpdateView):
 
 class PositionDeleteView(LoginRequiredMixin, DeleteView):
     model = Position
-    fields = ['position_name', 'related_skills',]
+    fields = ['position_name', 'related_skills', ]
     queryset = Position.objects.all()
     template_name = 'positions/position_confirm_delete.html'
 
@@ -258,30 +259,30 @@ class ParticipantCreateView(LoginRequiredMixin, View):
 @login_required
 @require_POST
 def participant_update_view(request, **kwargs):
-        pk = kwargs['participant_id']
-        participant = get_object_or_404(Participant, pk=pk)
-        action = kwargs['action']
-        if action == 'approve':
-            participant.status = 'member'
-            participant.start_date = timezone.now()
-            participant.save()
-            return HttpResponseRedirect(
-                reverse('project_detail',
-                        kwargs={'project_id': participant.position.project.id}))
-        elif action == 'reject':
-            participant.status = 'rejected'
-            participant.save()
-            return HttpResponseRedirect(
-                reverse('project_detail',
-                        kwargs={'project_id': participant.position.project.id}))
-        elif action == 'retire':
-            participant.status = 'retired'
-            participant.save()
-            return HttpResponseRedirect(
-                reverse('project_detail',
-                        kwargs={'project_id': participant.position.project.id}))
-        else:
-            return Http404('Unknown Action')
+    pk = kwargs['participant_id']
+    participant = get_object_or_404(Participant, pk=pk)
+    action = kwargs['action']
+    if action == 'approve':
+        participant.status = 'member'
+        participant.start_date = timezone.now()
+        participant.save()
+        return HttpResponseRedirect(
+            reverse('project_detail',
+                    kwargs={'project_id': participant.position.project.id}))
+    elif action == 'reject':
+        participant.status = 'rejected'
+        participant.save()
+        return HttpResponseRedirect(
+            reverse('project_detail',
+                    kwargs={'project_id': participant.position.project.id}))
+    elif action == 'retire':
+        participant.status = 'retired'
+        participant.save()
+        return HttpResponseRedirect(
+            reverse('project_detail',
+                    kwargs={'project_id': participant.position.project.id}))
+    else:
+        return Http404('Unknown Action')
 
 
 class ParticipantDeleteView(LoginRequiredMixin, DeleteView):
@@ -358,15 +359,15 @@ class SearchView(ListView):
             search_terms = search_terms.split(' ')
             for term in search_terms:
                 project_list = project_list.filter(
-                    Q(name__icontains=term)|
+                    Q(name__icontains=term) |
                     Q(description__icontains=term)
                 ).distinct()
                 position_list = position_list.filter(
-                    Q(position_name__icontains=term)|
+                    Q(position_name__icontains=term) |
                     Q(related_skills__name__icontains=term)
                 ).distinct()
                 user_list = user_list.filter(
-                    Q(username__icontains=term)|
+                    Q(username__icontains=term) |
                     Q(skills__name__icontains=term)
                 ).distinct()
             context['project_results'] = project_list
