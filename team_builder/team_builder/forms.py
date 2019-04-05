@@ -1,10 +1,9 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.core.files.images import get_image_dimensions
 from django.core.files.uploadedfile import UploadedFile
-from django.forms import (FileInput, Form, ImageField, ModelForm, Textarea,
-                          ValidationError, inlineformset_factory)
-from django.forms.fields import MultipleChoiceField
-from django.forms.widgets import SelectMultiple
+from django.forms import (FileInput, Form, ImageField, ModelForm,
+                          ModelMultipleChoiceField, Textarea, ValidationError,
+                          inlineformset_factory)
 
 from .models import Position, Project, Skill, User
 
@@ -74,6 +73,4 @@ class SkillCreateForm(ModelForm):
 
 
 class SkillFilterForm(Form):
-    CHOICES = [tuple(skill.values()) for skill in Skill.objects.all().values()]
-    skills = MultipleChoiceField(widget=SelectMultiple,
-                                 choices=CHOICES)
+    skills = ModelMultipleChoiceField(queryset=Skill.objects.all())

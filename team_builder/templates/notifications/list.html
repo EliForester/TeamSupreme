@@ -11,7 +11,7 @@
 
 <form action="{% url 'notifications:mark_all_as_read' %}" method="post">
     {% csrf_token %}
-    <button class="button-primary icon-on-left" type="submit">Mark All Read</button>
+    <button type="submit">Mark All Read</button>
 </form>
 
 
@@ -40,19 +40,19 @@
   <td>
       <form action="{{ notice.action_object.project.get_absolute_url }}" method="get">
           {% csrf_token %}
-          <button class="button-primary icon-on-left" type="submit">View</button>
+          <button type="submit">View</button>
       </form>
   </td>
   <td>
     {% if notice.unread %}
         <form action="{% url 'notifications:mark_as_read' slug=notice.id|add:'110909' %}" method="post">
             {% csrf_token %}
-            <button class="button-primary icon-on-left" type="submit">Mark Read</button>
+            <button type="submit">Mark Read</button>
         </form>
     {% else %}
         <form action="{% url 'notifications:delete' slug=notice.id|add:'110909' %}" method="post">
             {% csrf_token %}
-            <button class="button-primary icon-on-left" type="submit">Delete</button>
+            <button type="submit">Delete</button>
         </form>
     {% endif %}
   </td>

@@ -782,7 +782,7 @@ em {
 
 /* line 63, ../sass/circle/core/type.sass */
 a {
-  color: #70566D;
+  color: #689b98;
   -webkit-transition: color 0.2s;
   -moz-transition: color 0.2s;
   -ms-transition: color 0.2s;
@@ -791,7 +791,7 @@ a {
 }
 /* line 66, ../sass/circle/core/type.sass */
 a:hover {
-  color: #70566D;
+  color: #537d7b;
 }
 
 /* line 4, ../sass/circle/core/buttons.sass */
@@ -802,7 +802,7 @@ input[type="reset"],
 input[type="button"] {
   font-family: "Work Sans", sans-serif;
   font-size: 1.6rem;
-  padding: 10px 20px;
+  padding: 18px 30px;
   border: 0;
   margin-right: 10px;
   border-radius: 8px;
@@ -812,9 +812,9 @@ input[type="button"] {
   box-sizing: border-box;
   line-height: 1;
   text-decoration: none;
-  color: #70566D;
+  color: #689b98;
   background: none;
-  box-shadow: 0 0 0 2px #70566D inset;
+  box-shadow: 0 0 0 2px #689b98 inset;
   position: relative;
   -webkit-transition: 0.2s;
   -moz-transition: 0.2s;
@@ -836,8 +836,8 @@ button:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover,
 input[type="button"]:hover {
-  box-shadow: 0 0 0 2px #9B7797 inset;
-  color: #9B7797;
+  box-shadow: 0 0 0 2px #537d7b inset;
+  color: #537d7b;
   outline: 0;
 }
 /* line 32, ../sass/circle/core/buttons.sass */
@@ -846,7 +846,7 @@ button:hover svg,
 input[type="submit"]:hover svg,
 input[type="reset"]:hover svg,
 input[type="button"]:hover svg {
-  fill: #9B7797;
+  fill: #537d7b;
 }
 /* line 34, ../sass/circle/core/buttons.sass */
 .button svg,
@@ -854,7 +854,7 @@ button svg,
 input[type="submit"] svg,
 input[type="reset"] svg,
 input[type="button"] svg {
-  fill: #70566D;
+  fill: #689b98;
   width: auto;
   height: 13px;
   position: relative;
@@ -903,7 +903,7 @@ input[type="reset"].button-primary,
 input[type="button"].button-primary,
 button.button-primary {
   color: #fff;
-  background-color: #70566D;
+  background-color: #689b98;
 }
 /* line 68, ../sass/circle/core/buttons.sass */
 .button.button-primary svg, input[type="submit"].button-primary svg,
@@ -922,7 +922,7 @@ input[type="reset"].button-primary:focus,
 input[type="button"].button-primary:focus,
 button.button-primary:hover,
 button.button-primary:focus {
-  background-color: #9B7797;
+  background-color: #537d7b;
 }
 
 /* line 84, ../sass/circle/core/buttons.sass */
@@ -937,7 +937,7 @@ input[type="button"].button-inactive:hover,
 input[type="button"].button-inactive:focus,
 button.button-inactive {
   color: #fff;
-  background-color: #9B7797;
+  background-color: #cccccc;
   box-shadow: none;
 }
 /* line 89, ../sass/circle/core/buttons.sass */
@@ -966,7 +966,7 @@ button.button-text {
   background-color: none;
   box-shadow: none;
   padding: 18px 15px;
-  color: #70566D;
+  color: #a5c4c2;
 }
 /* line 111, ../sass/circle/core/buttons.sass */
 .button.button-text:hover, input[type="submit"].button-text:hover,
@@ -976,13 +976,13 @@ input[type="reset"].button-text:focus,
 input[type="button"].button-text:focus,
 button.button-text:hover,
 button.button-text:focus {
-  color: #70566D;
+  color: #689b98;
 }
 
 /* line 4, ../sass/circle/core/forms.sass */
 textarea {
   padding: 15px;
-  border: 1px solid #70566D;
+  border: 1px solid #c4d8d7;
   box-shadow: none;
   box-sizing: border-box;
   min-height: 200px;
@@ -997,7 +997,7 @@ textarea {
 }
 /* line 18, ../sass/circle/core/forms.sass */
 textarea:focus {
-  border-color: #70566D;
+  border-color: #689b98;
 }
 
 /* line 24, ../sass/circle/core/forms.sass */
@@ -1040,7 +1040,7 @@ input[type="email"]:-ms-input-placeholder, input[type="number"]:-ms-input-placeh
 }
 /* line 48, ../sass/circle/core/forms.sass */
 input[type="email"]:focus, input[type="number"]:focus, input[type="search"]:focus, input[type="text"]:focus, select:focus, input[type="tel"]:focus, input[type="url"]:focus, input[type="password"]:focus {
-  border-color: #70566D;
+  border-color: #689b98;
 }
 
 /* line 51, ../sass/circle/core/forms.sass */
@@ -1055,7 +1055,7 @@ select {
 }
 /* line 60, ../sass/circle/core/forms.sass */
 select:focus {
-  border-color: #70566D;
+  border-color: #689b98;
 }
 /* line 62, ../sass/circle/core/forms.sass */
 .circle--select select {
@@ -1084,7 +1084,7 @@ select:focus {
 }
 /* line 84, ../sass/circle/core/forms.sass */
 .circle--select.focus {
-  border-color: #70566D;
+  border-color: #689b98;
 }
 /* line 86, ../sass/circle/core/forms.sass */
 .circle--select .chevron {
@@ -1093,7 +1093,7 @@ select:focus {
   right: 20px;
   height: 14px;
   margin-top: -7px;
-  fill: #70566D;
+  fill: #689b98;
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
@@ -1335,7 +1335,7 @@ hr {
 }
 /* line 32, ../sass/circle/components/lists.sass */
 .circle--filter--list a:hover {
-  color: #70566D;
+  color: #a5c4c2;
 }
 /* line 34, ../sass/circle/components/lists.sass */
 .circle--filter--list a.selected {
@@ -1384,7 +1384,7 @@ hr {
 }
 /* line 68, ../sass/circle/components/lists.sass */
 .circle--clone--remove:hover {
-  color: #ABC8C0;
+  color: #537d7b;
 }
 /* line 70, ../sass/circle/components/lists.sass */
 li:only-child .circle--clone--remove {
@@ -1436,7 +1436,7 @@ li:only-child .circle--clone--remove {
 
 /* line 2, ../sass/circle/components/headers.sass */
 .circle--header {
-  background: #ABC8C0;
+  background: #537d7b;
   padding: 20px 0;
   margin-bottom: 30px;
 }
@@ -1468,7 +1468,7 @@ li:only-child .circle--clone--remove {
 /* line 17, ../sass/circle/components/headers.sass */
 .circle--header input {
   background: rgba(255, 255, 255, 0.3);
-  border-color: #ABC8C0;
+  border-color: #496e6c;
   color: #fff;
 }
 /* line 62, ../sass/circle/core/mixins.sass */
@@ -1571,7 +1571,7 @@ li:only-child .circle--clone--remove {
 }
 /* line 6, ../sass/circle/components/tables.sass */
 .circle--table p {
-  margin: 15px 0 0 0;
+  margin: 10px 0 0 0;
 }
 /* line 8, ../sass/circle/components/tables.sass */
 .circle--table th,
@@ -1584,18 +1584,17 @@ li:only-child .circle--clone--remove {
 }
 /* line 13, ../sass/circle/components/tables.sass */
 .circle--table td {
-  padding: 5px 0;
+  padding: 25px 0;
 }
 
 /* line 17, ../sass/circle/components/tables.sass */
 .clickable-row td {
   cursor: pointer;
-  color: #9B7797;
+  color: #a5c4c2;
 }
-
 /* line 20, ../sass/circle/components/tables.sass */
 .clickable-row h3 {
-  color: #70566D;
+  color: #689b98;
 }
 
 /* line 2, ../sass/circle/components/forms.sass */

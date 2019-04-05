@@ -10,7 +10,7 @@
         <td class="icon-on-right">
             {% if request.user == object %}
             <form action="{% url 'profile_update' profile_id=object.id %}" method="get">
-                <button class="button-primary icon-on-left" type="submit">Edit</button>
+                <button type="submit">Edit</button>
             </form>
             {% endif %}
         </td>

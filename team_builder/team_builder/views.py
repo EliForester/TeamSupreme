@@ -4,7 +4,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, reverse
+from django.shortcuts import get_object_or_404, reverse, render_to_response
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
@@ -375,3 +375,10 @@ class SearchView(ListView):
             context['user_results'] = user_list
         context['search_terms'] = search_terms
         return context
+
+
+def handler404(request, exception):
+    '''
+    :return: Render custom 404 template
+    '''
+    return render_to_response('404.html')

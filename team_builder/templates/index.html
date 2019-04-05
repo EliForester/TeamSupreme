@@ -2,6 +2,7 @@
 {% load rules %}
 
 {% block body %}
+{% with request.resolver_match as view_detail %}
 
 {% if not request.user.is_authenticated %}
 <div class="jumbotron">
@@ -12,15 +13,16 @@
     Click below to get started.<br>
     <form action="{% url 'signup' %}" method="post">
         {% csrf_token %}
-        <button class="button-primary icon-on-left" type="submit">Sign Up</button>
+        <button type="submit">Sign Up</button>
     </form>
     <form action="{% url 'signin' %}" method="post">
         {% csrf_token %}
-        <button class="button-primary icon-on-left" type="submit">Sign In</button>
+        <button type="submit">Sign In</button>
     </form>
 </div>
 {% endif %}
 
+{% if object_list %}
 <table class="u-full-width circle--table table-striped">
 <thead>
   <tr>
@@ -36,7 +38,7 @@
   {% has_perm 'team_builder.leave_project' user project as can_leave_project %}
   {% has_perm 'team_builder.join_project' user project as can_join_project %}
   <tr class="clickable-row" data-href="{{ project.get_absolute_url }}">
-      <td>{{ project.name }}</td>
+      <td class="nowrap">{{ project.name }}</td>
       <td><a href="{% url 'profile' profile_id=project.owner.id %}">{{ project.owner.username }}</td>
       <td>{{ project.position_set.all|join:"," }}</td>
       <td class="vert-aligned">{% include "projects/project_control_buttons.html" %}</td>
@@ -44,5 +46,25 @@
   {% endfor %}
   </tbody>
 </table>
+{% elif view_detail.view_name == 'projects_filter' and view_detail.kwargs.filter_type != 'own'%}
+<div class="jumbotron">
+    <h1 class="display-4">There doesn't seem to be anything here yet</h1>
+      <form action="{% url 'home' %}" method="get">
+          {% csrf_token %}
+          <button type="submit">Go Home</button>
+      </form>
+</div>
+{% else %}
+<div class="jumbotron">
+    <h1 class="display-4">There aren't any projects here yet!</h1>
+    <p>How about adding your own?</p><br>
+      <form action="{% url 'project_create' %}" method="get">
+          {% csrf_token %}
+          <button type="submit">New Project+</button>
+      </form>
+</div>
+{% endif %}
+
+{% endwith %}
 
 {% endblock %}

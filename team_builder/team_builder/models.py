@@ -63,7 +63,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateField(default=timezone.now)
     is_staff = models.BooleanField(default=False)
     profile = models.CharField(max_length=300, blank=True)
-    skills = models.ManyToManyField(Skill)
+    skills = models.ManyToManyField(Skill, blank=True)
 
     objects = UserManager()
 

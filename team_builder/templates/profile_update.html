@@ -12,7 +12,7 @@
     {% if request.user == object %}
     <form action="{% url 'skill_add' referrer='user' referrer_id=user.id %}" method="get">
       {% csrf_token %}
-      <button class="button-primary icon-on-left" type="submit">Add Skill</button>
+      <button type="submit">Add Skill</button>
       </form>
     {% endif %}
 

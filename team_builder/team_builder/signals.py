@@ -24,16 +24,15 @@ def participant_notifier(sender, **kwargs):
         verb = ''
         if old_participant.status == 'pending' and \
                 participant.status == 'member':
-            verb = ' was approved for {} in {} {}'
+            verb = ' was approved for {} in {}'
         elif old_participant.status == 'pending' and \
                 participant.status == 'rejected':
-            verb = ' was rejected for {} in {} {}'
+            verb = ' was rejected for {} in {}'
         notify.send(participant.position.project.owner,
                     recipient=participant.user,
                     verb=verb.format(
                         participant.position.position_name,
-                        participant.position.project.name,
-                        participant.id),
+                        participant.position.project.name),
                     action_object=participant.position)
     except ObjectDoesNotExist:
         # If new participant then send to project owner

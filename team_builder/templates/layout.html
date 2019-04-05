@@ -120,7 +120,7 @@
         <h3>Signed in: {{ user.username }}!</h3>
       <form action="{% url 'project_create' %}" method="get">
           {% csrf_token %}
-          <button class="button-primary icon-on-right" type="submit">New Project+</button>
+          <button type="submit">New Project+</button>
       </form>
     {% if request.user.avatar %}
       <div class="circle--secondary--module">

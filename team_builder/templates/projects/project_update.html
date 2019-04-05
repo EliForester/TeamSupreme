@@ -8,15 +8,15 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button class="button-primary" type="submit">Save Project Detail</button>
+    <button type="submit">Save Project Detail</button>
 </form>
 
 <form action="{% url 'project_detail' project_id=object.id %}">
-    <button class="button-primary" type="submit">Return to Project</button>
+    <button type="submit">Return to Project</button>
 </form>
 
 <form action="{% url 'position_add' project_id=object.id %}">
-    <button class="button-primary" type="submit">Add Position</button>
+    <button type="submit">Add Position</button>
 </form>
 
 <h3>Positions Available</h3>
