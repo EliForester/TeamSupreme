@@ -118,4 +118,6 @@ class Participant(models.Model):
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, default='pending')
+    created_date = models.DateTimeField(default=timezone.now)
     start_date = models.DateTimeField(null=True)
+    end_date = models.DateTimeField(null=True)

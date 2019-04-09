@@ -22,9 +22,9 @@
     {% endif %}
 
     {% if can_leave_position %}
-        <form action="{% url 'participant_delete' position_id=position.id %}" method="post">
+        <form action="{% url 'participant_update' participant_id=participant_id action='leave' %}" method="post">
             {% csrf_token %}
-            <button type="submit">Leave</button>
+            <button type="submit">Retire</button>
         </form>
     {% endif %}
 {% endif %}

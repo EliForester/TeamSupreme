@@ -24,13 +24,17 @@ def participant_notifier(sender, **kwargs):
         verb = ''
         if old_participant.status == 'pending' and \
                 participant.status == 'member':
-            verb = ' was approved for {} in {}'
+            verb = '{} was approved for {} in {}'
         elif old_participant.status == 'pending' and \
                 participant.status == 'rejected':
-            verb = ' was rejected for {} in {}'
+            verb = '{} was rejected for {} in {}'
+        elif old_participant.status == 'member' and \
+                participant.status == 'retired':
+            verb = '{} was retired from {} in {}'
         notify.send(participant.position.project.owner,
                     recipient=participant.user,
                     verb=verb.format(
+                        participant.user,
                         participant.position.position_name,
                         participant.position.project.name),
                     action_object=participant.position)
@@ -38,7 +42,8 @@ def participant_notifier(sender, **kwargs):
         # If new participant then send to project owner
         notify.send(participant.user,
                     recipient=participant.position.project.owner,
-                    verb=' would like to join {} as {}'.format(
+                    verb='{} would like to join {} as {}'.format(
+                        participant.user,
                         participant.position.project.name,
                         participant.position.position_name),
                     action_object=participant.position)

@@ -12,7 +12,7 @@
 <form action="{% url 'notifications:mark_all_as_read' %}" method="post">
     {% csrf_token %}
     <button type="submit">Mark All Read</button>
-</form>
+</form><br>
 
 
 <table class="u-full-width circle--table table-striped">
@@ -29,7 +29,7 @@
  <tr {% if notice.unread %}
      class="table-success"
  {% endif %}>
-  <td>{{ notice.actor }}{{ notice.verb }}{% if notice.target %} of {{ notice.target }}{% endif %}
+  <td>{{ notice.verb }}{% if notice.target %} of {{ notice.target }}{% endif %}
   </td>
   <td>{{ notice.timesince }} ago</td>
   <td>

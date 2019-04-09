@@ -131,6 +131,14 @@ legend {
   white-space: nowrap;
 }
 
+.circle--header input {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.circle--header button {
+  background: None;
+}
+
 /* line 58, ../sass/circle/components/lists.sass */
 .circle--clone--list a {
   font-family: "Source Sans Pro", sans-serif;

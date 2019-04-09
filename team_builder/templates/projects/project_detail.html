@@ -58,9 +58,13 @@
           <tr>
             <th>Name</th>
             <th>Position</th>
+            {% if request.user == project.owner %}
+            <th>Apply Date</th>
+            {% endif %}
             <th>Start Date</th>
             {% if request.user == project.owner %}
             <th>Status</th>
+            <th>End Date</th>
             <th></th>
             {% endif %}
           </tr>
@@ -76,11 +80,13 @@
             <td>
                 {{ participant.position.position_name }}
             </td>
+            {% if request.user == project.owner %}
+            <td>{{ participant.created_date|date }}</td>
+            {% endif %}
             <td>{{ participant.start_date|date }}</td>
             {% if request.user == project.owner %}
-            <td>
-            {{ participant.status|title }}
-            </td>
+            <td>{{ participant.status|title }}</td>
+            <td>{{ participant.end_date|date }}</td>
             <td>{% include 'projects/user_control_buttons.html' %}</td>
             {% endif %}
           </tr>

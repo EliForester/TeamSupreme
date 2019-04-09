@@ -32,7 +32,7 @@ def is_position_owner(user, position):
 
 
 @rules.predicate
-def is_retired(user, position):
+def is_member_or_pending(user, position):
     '''
 
     :param user: User object from template
@@ -41,7 +41,7 @@ def is_retired(user, position):
     '''
     for participant in position.participant_set.all():
         if participant.user == user:
-            if participant.status == 'retired':
+            if participant.status in ['member', 'pending']:
                 return True
     return False
 
@@ -62,10 +62,10 @@ def is_participant(user, position):
 rules.add_perm('team_builder.edit_project', is_project_owner)
 rules.add_perm('team_builder.delete_project', is_project_owner)
 
-# User rules
+# Position rules
 
-allowed_to_join = is_retired | ~is_participant & ~is_position_owner
-allowed_to_leave = is_participant & ~is_position_owner & ~is_retired
+allowed_to_join = ~is_position_owner & ~is_member_or_pending
+allowed_to_leave = ~is_position_owner & is_member_or_pending
 
 rules.add_perm('team_builder.edit_delete_position', is_position_owner)
 rules.add_perm('team_builder.join_position', allowed_to_join)

@@ -163,7 +163,11 @@ class ProjectDetailView(DetailView):
         elif user != project.owner and user.is_authenticated:
             non_owner_query = (Q(position__in=position_list) & (
                         Q(user=user) | Q(status='member')))
-            participant_list = Participant.objects.filter(non_owner_query)
+            participant_list = Participant.objects.filter(
+                non_owner_query
+            ).order_by(
+                'created_date'
+            )
         else:
             participant_list = Participant.objects.filter(status='member')
         context['participant_list'] = participant_list
@@ -215,6 +219,16 @@ class PositionDetailView(DetailView):
         obj = get_object_or_404(Position, pk=self.kwargs['position_id'])
         return obj
 
+    def get_context_data(self, **kwargs):
+        context = super(PositionDetailView, self).get_context_data(**kwargs)
+        current_participant = Participant.objects.get(
+            position=self.object,
+            user=self.request.user,
+            status__in=['member', 'pending'])
+        if current_participant:
+            context['participant_id'] = current_participant.id
+        return context
+
 
 class PositionUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'positions/position_update.html'
@@ -250,8 +264,14 @@ class ParticipantCreateView(LoginRequiredMixin, View):
         position_id = kwargs['position_id']
         position = get_object_or_404(Position, pk=position_id)
         user = request.user
-        participant, created = Participant.objects.get_or_create(
-            position=position, user=user)
+        is_participating = Participant.objects.filter(
+            position=position,
+            user=user
+        ).exclude(
+            status__in=['retired', 'rejected']
+        )
+        if not is_participating:
+            Participant.objects.create(position=position, user=user)
         return HttpResponseRedirect(reverse('position_detail',
                                             args=[position_id]))
 
@@ -262,40 +282,32 @@ def participant_update_view(request, **kwargs):
     pk = kwargs['participant_id']
     participant = get_object_or_404(Participant, pk=pk)
     action = kwargs['action']
+    action_map = {'reject': ['rejected', participant.position.project.owner],
+                  'retire': ['retired', participant.position.project.owner],
+                  'leave': ['left', participant.user]}
     if action == 'approve':
-        participant.status = 'member'
-        participant.start_date = timezone.now()
-        participant.save()
-        return HttpResponseRedirect(
-            reverse('project_detail',
-                    kwargs={'project_id': participant.position.project.id}))
-    elif action == 'reject':
-        participant.status = 'rejected'
-        participant.save()
-        return HttpResponseRedirect(
-            reverse('project_detail',
-                    kwargs={'project_id': participant.position.project.id}))
-    elif action == 'retire':
-        participant.status = 'retired'
-        participant.save()
-        return HttpResponseRedirect(
-            reverse('project_detail',
-                    kwargs={'project_id': participant.position.project.id}))
+        if request.user == participant.position.project.owner:
+            participant.status = 'member'
+            participant.start_date = timezone.now()
+            participant.save()
+            return HttpResponseRedirect(
+                reverse('project_detail',
+                        kwargs={'project_id': participant.position.project.id}))
+        else:
+            return Http404('Only owner can approve')
+    elif action in action_map.keys():
+        print(action_map[action][1])
+        if request.user == action_map[action][1]:
+            participant.status = action_map[action][0]
+            participant.end_date = timezone.now()
+            participant.save()
+            return HttpResponseRedirect(
+                reverse('project_detail',
+                        kwargs={'project_id': participant.position.project.id}))
+        else:
+            return Http404('Unauthorized action')
     else:
         return Http404('Unknown Action')
-
-
-class ParticipantDeleteView(LoginRequiredMixin, DeleteView):
-    model = Participant
-
-    def get_object(self, queryset=None):
-        position = Position.objects.get(pk=self.kwargs['position_id'])
-        user = self.request.user
-        return get_object_or_404(Participant, position=position, user=user)
-
-    def get_success_url(self):
-        position_id = self.object.position.id
-        return reverse('position_detail', kwargs={'position_id': position_id})
 
 
 class NotificationView(LoginRequiredMixin, ListView):
