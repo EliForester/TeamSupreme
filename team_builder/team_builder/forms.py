@@ -73,4 +73,5 @@ class SkillCreateForm(ModelForm):
 
 
 class SkillFilterForm(Form):
-    skills = ModelMultipleChoiceField(queryset=Skill.objects.all())
+    skills = ModelMultipleChoiceField(
+        queryset=Skill.objects.all().order_by('name'))

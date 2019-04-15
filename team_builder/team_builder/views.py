@@ -63,12 +63,13 @@ class HomeView(ListView):
     template_name = 'index.html'
 
     def get_queryset(self):
-        return Project.objects.all().prefetch_related('position_set')
+        return Project.objects.all().prefetch_related('position_set'
+                                                      ).order_by('name')
 
 
 class ProjectView(ListView):
     template_name = 'index.html'
-    queryset = Project.objects.all()
+    queryset = Project.objects.all().order_by('name')
 
     def get_queryset(self):
         '''
@@ -100,7 +101,7 @@ class ProjectView(ListView):
 
 class ProjectFilterView(ListView):
     template_name = 'projects/project_filter.html'
-    queryset = Project.objects.all()
+    queryset = Project.objects.all().order_by('name')
     form_class = SkillFilterForm
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -118,7 +119,6 @@ class ProjectFilterView(ListView):
                 position__related_skills__id__in=skill_filter_ids
             ).distinct()
         context['project_list'] = project_list
-        print(context)
         return context
 
 
