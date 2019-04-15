@@ -85,9 +85,6 @@ urlpatterns = [
     re_path(r'^participant/(?P<participant_id>\d+)/(?P<action>approve|reject|retire|leave)/$',
             views.participant_update_view, name='participant_update'),
 
-#    path('participant/<int:position_id>/delete/',
-#         views.ParticipantDeleteView.as_view(), name='participant_delete'),
-
     path('skill/<int:skill_id>/', views.SkillDetailView.as_view(),
          name='skill_detail'),
 

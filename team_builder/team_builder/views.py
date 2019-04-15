@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, reverse, render_to_response
@@ -221,12 +222,14 @@ class PositionDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(PositionDetailView, self).get_context_data(**kwargs)
-        current_participant = Participant.objects.get(
-            position=self.object,
-            user=self.request.user,
-            status__in=['member', 'pending'])
-        if current_participant:
+        try:
+            current_participant = Participant.objects.get(
+                position=self.object,
+                user=self.request.user,
+                status__in=['member', 'pending'])
             context['participant_id'] = current_participant.id
+        except ObjectDoesNotExist:
+            pass
         return context
 
 
@@ -268,7 +271,7 @@ class ParticipantCreateView(LoginRequiredMixin, View):
             position=position,
             user=user
         ).exclude(
-            status__in=['retired', 'rejected']
+            status__in=['retired', 'rejected', 'left']
         )
         if not is_participating:
             Participant.objects.create(position=position, user=user)

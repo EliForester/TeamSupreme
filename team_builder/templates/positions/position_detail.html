@@ -37,6 +37,11 @@
     No special skills required.
     {% endif %}
     <br>
+    {% for participant in object.participant_set.all %}
+        {% if participant.user == request.user and participant.status == 'pending' %}
+            <i>Your request is still pending</i><br>
+        {% endif %}
+    {% endfor %}
     {% include 'positions/position_control_buttons.html' %}
     <form action="{% url 'project_detail' project_id=object.project.id %}">
         <button type="submit">Return to Project</button>
