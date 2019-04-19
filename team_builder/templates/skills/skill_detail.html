@@ -40,13 +40,14 @@ Click to view Profile.</i><br>
         </tr>
     </thead>
     <tbody>
-    {% for user in object.user_set.all %}
+    {% for user, user_dict in related_users.items %}
       <tr class="clickable-row" data-href="{% url 'profile' profile_id=user.id %}">
         <td>
             <h5>{{ user.username }}</h5>
         </td>
-          <td>{{ user.project_set.all|join:", " }}</td>
-        <td class="circle--cell--right">{{ user.position_set.all|join:", " }}</td>
+          <td>{{ user.project_set.all|join:", " }}
+          </td>
+        <td class="circle--cell--right">{{ user_dict.active_positions|join:", " }}</td>
       </tr>
     {% endfor %}
     </tbody>

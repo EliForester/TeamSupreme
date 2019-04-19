@@ -3,12 +3,12 @@
 }
 
 .circle--table th {
-  padding: 0 0 0px 0;
+  padding: 0px;
   width: 30%;
 }
 
 .circle--table td {
-  padding: 4px 0;
+  padding: 4px;
   vertical-align: middle;
 }
 
@@ -61,11 +61,19 @@ pre, blockquote, dl, figure, table, p, ul, ol, form {
 }
 
 .table-primary, .table-primary>td, .table-primary>th {
-    background-color: #e2faff;
+    background-color: #7abaff4a;
+}
+
+.table-primary tbody+tbody, .table-primary td, .table-primary th, .table-primary thead th {
+    border-bottom: 1px solid #e1e1e1;
 }
 
 .table-success, .table-success>td, .table-success>th {
-    background-color: #d7e6c1;
+    background-color: rgba(226, 250, 255, 0.27);
+}
+
+.table-success tbody+tbody, .table-success td, .table-success th, .table-success thead th {
+    border-bottom: 1px solid #e1e1e1;
 }
 
 table.td-header td {
@@ -88,6 +96,11 @@ table + h2 {
 }
 
 table + h1 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+form + table {
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -201,7 +214,7 @@ body {
 }
 
 button, .button {
-    margin-bottom: 0rem;
+    margin: 2px;
 }
 
 textarea {

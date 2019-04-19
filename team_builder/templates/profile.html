@@ -19,15 +19,29 @@
 
 <h1 class="circle--input--h1">{{ object.username }}</h1>
 
+{% if object != request.user %}
+    {% if object.avatar %}
+          <img src="{{ object.avatar.url }}">
+    {% endif %}
+{% endif %}
+
 <h2>Bio</h2>
 <div class="circle--article--body">
+    {% if object.bio %}
     {{ object.bio }}
+    {% else %}
+    <i>User has not added a bio yet</i>
+    {% endif %}
 </div>
 
 <h2>Profile</h2>
 
 <div class="circle--article--body">
+    {% if object.profile %}
     {{ object.profile }}
+    {% else %}
+    <i>User has not added a profile yet</i>
+    {% endif %}
 </div>
 
 <h2>Projects</h2>

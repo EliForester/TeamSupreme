@@ -325,6 +325,16 @@ class SkillDetailView(DetailView):
     def get_object(self, queryset=None):
         return get_object_or_404(Skill, pk=self.kwargs['skill_id'])
 
+    def get_context_data(self, **kwargs):
+        context = super(SkillDetailView, self).get_context_data(**kwargs)
+        related_users = User.objects.filter(skills=self.get_object())
+        related_user_context = {}
+        for user in related_users:
+            related_user_context[user] = {}
+            related_user_context[user]['active_positions'] = user.position_set.filter(
+                participant__status='member')
+        context['related_users'] = related_user_context
+        return context
 
 class SkillCreateView(CreateView):
     model = Skill

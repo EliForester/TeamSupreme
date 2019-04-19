@@ -81,7 +81,7 @@
     <nav class="bounds">
       <ul class="circle--pill--list">
         {% if user.is_authenticated %}
-          <li><a class="selected" href="{% url 'profile' profile_id=user.id %}">Profile</a></li>
+          <li><a class="selected" href="{% url 'profile' profile_id=request.user.id %}">Profile</a></li>
           <li><a href="{% url 'projects_filter' filter_type='own' %}">Own</a></li>
           <li><a href="{% url 'projects_filter' filter_type='member' %}">Member</a></li>
           <li><a href="{% url 'projects_filter' filter_type='join' %}">Join</a></li>
@@ -117,11 +117,11 @@
 
 <div class="grid-25 grid-push-5">
   {% if request.user.is_authenticated %}
-        <h3>Signed in: {{ user.username }}!</h3>
-      <form action="{% url 'project_create' %}" method="get">
+        <h3>Signed in: {{ request.user.username }}!</h3>
+      <form class="new_project_button" action="{% url 'project_create' %}" method="get">
           {% csrf_token %}
           <button type="submit">New Project+</button>
-      </form>
+      </form><br><br>
     {% if request.user.avatar %}
       <div class="circle--secondary--module">
         <div class="circle--primary--avatar">

@@ -39,7 +39,7 @@
     <br>
     {% for participant in object.participant_set.all %}
         {% if participant.user == request.user and participant.status == 'pending' %}
-            <i>Your request is still pending</i><br>
+            <i>Your request is pending</i><br>
         {% endif %}
     {% endfor %}
     {% include 'positions/position_control_buttons.html' %}

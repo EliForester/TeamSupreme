@@ -9,11 +9,12 @@
 
 <h1>Notifications</h1>
 
-<form action="{% url 'notifications:mark_all_as_read' %}" method="post">
-    {% csrf_token %}
-    <button type="submit">Mark All Read</button>
-</form><br>
-
+<div>
+    <form action="{% url 'notifications:mark_all_as_read' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Mark All Read</button>
+    </form>
+</div><br>
 
 <table class="u-full-width circle--table table-striped">
 <thead>
