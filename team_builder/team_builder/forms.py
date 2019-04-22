@@ -9,9 +9,9 @@ from .models import Position, Project, Skill, User
 
 # Formatting validations for avatar
 VALID_IMG_FORMATS = ['image/jpeg', 'image/png', 'image/gif']
-VALID_IMG_WIDTH = 200
-VALID_IMG_HEIGHT = 300
-MAX_IMG_SIZE = 100  # in kb
+VALID_IMG_WIDTH = 201
+VALID_IMG_HEIGHT = 301
+MAX_IMG_SIZE = 101  # in kb
 
 
 class UserCreateForm(UserCreationForm):
@@ -45,7 +45,7 @@ class UserProfileUpdateForm(ModelForm):
                     'Avatar must be .png, .jpg or .gif format')
             if w >= VALID_IMG_WIDTH or h >= VALID_IMG_HEIGHT:
                 raise ValidationError(
-                    'Avatars should be within {} and {} pixels'.format(
+                    'Must be less than width {} and height {} pixels'.format(
                         str(VALID_IMG_WIDTH), str(VALID_IMG_HEIGHT)))
             return avatar
 

@@ -210,7 +210,7 @@ class PositionAddView(LoginRequiredMixin,
     template_name = 'positions/position_create.html'
     model = Position
     fields = ['position_name', 'head_count', 'related_skills', ]
-    permission_required = 'team_builder.edit_project'
+    permission_required = 'team_builder.edit_delete_position'
 
     def form_valid(self, form, *args, **kwargs):
         new_position = form.instance
@@ -249,7 +249,7 @@ class PositionUpdateView(LoginRequiredMixin,
     model = Position
     fields = ['position_name', 'head_count', 'related_skills', ]
     queryset = Position.objects.all()
-    permission_required = 'team_builder.edit_project'
+    permission_required = 'team_builder.edit_delete_position'
 
     def get_object(self, queryset=None):
         obj = get_object_or_404(Position, pk=self.kwargs['position_id'])
@@ -263,7 +263,7 @@ class PositionDeleteView(LoginRequiredMixin,
     fields = ['position_name', 'related_skills', ]
     queryset = Position.objects.all()
     template_name = 'positions/position_confirm_delete.html'
-    permission_required = 'team_builder.edit_project'
+    permission_required = 'team_builder.edit_delete_position'
 
     def get_object(self, queryset=None):
         obj = get_object_or_404(Position, pk=self.kwargs['position_id'])
