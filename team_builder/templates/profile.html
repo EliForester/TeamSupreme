@@ -44,7 +44,7 @@
     {% endif %}
 </div>
 
-<h2>Projects</h2>
+<h2>Own Projects</h2>
 
 <table class="u-full-width circle--table table-striped">
     <thead>
@@ -54,7 +54,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for project in user_projects %}
+        {% for project in object.project_set.all %}
         <tr class="clickable-row" data-href="{% url 'project_detail' project_id=project.id %}">
             <td>
                 <h5>{{ project.name }}</h5>
@@ -66,6 +66,54 @@
         {% endfor %}
     </tbody>
 </table>
+
+{% if current_positions|length > 0 %}
+<h2>Current Positions</h2>
+<table class="u-full-width circle--table table-striped">
+    <thead>
+        <tr>
+            <th>Project Title</th>
+            <th class="circle--cell--right">Position</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for position in current_positions.all %}
+        <tr class="clickable-row" data-href="{% url 'project_detail' project_id=position.project.id %}">
+            <td>
+                <h5>{{ position.project.name }}</h5>
+            </td>
+            <td class="circle--cell--right">
+              <span class="secondary-label">{{ position.position_name }}</span>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if past_positions|length > 0 %}
+<h2>Past Positions</h2>
+<table class="u-full-width circle--table table-striped">
+    <thead>
+        <tr>
+            <th>Project Title</th>
+            <th class="circle--cell--right">Position</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for position in past_positions.all %}
+        <tr class="clickable-row" data-href="{% url 'project_detail' project_id=position.project.id %}">
+            <td>
+                <h5>{{ position.project.name }}</h5>
+            </td>
+            <td class="circle--cell--right">
+              <span class="secondary-label">{{ position.position_name }}</span>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
 
 <h2>Skills</h2>
 

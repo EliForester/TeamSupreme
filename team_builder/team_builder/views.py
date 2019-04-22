@@ -40,9 +40,15 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ProfileDetailView, self).get_context_data(**kwargs)
-        user_projects = Project.objects.filter(
-            position__in=self.request.user.position_set.all()).distinct()
-        context['user_projects'] = user_projects
+        profile_user = self.get_object()
+        current_positions = profile_user.position_set.filter(
+            participant__status='member'
+        )
+        past_positions = profile_user.position_set.filter(
+            participant__status__in=['retired', 'left']
+        )
+        context['current_positions'] = current_positions
+        context['past_positions'] = past_positions
         return context
 
 
