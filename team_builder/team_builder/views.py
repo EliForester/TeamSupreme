@@ -72,10 +72,10 @@ class ProjectView(ListView):
     queryset = Project.objects.all().order_by('name')
 
     def get_queryset(self):
-        '''
+        """
         Filtering the queryset based on type of filter requested or no filter
         :return: queryset
-        '''
+        """
 
         is_member_query = Position.objects.filter(
             participant__in=Participant.objects.filter(
@@ -198,10 +198,13 @@ class ProjectUpdateView(LoginRequiredMixin,
             skill_form=skill_form))
 
 
-class PositionAddView(LoginRequiredMixin, CreateView):
+class PositionAddView(LoginRequiredMixin,
+                      PermissionRequiredMixin,
+                      CreateView):
     template_name = 'positions/position_create.html'
     model = Position
     fields = ['position_name', 'head_count', 'related_skills', ]
+    permission_required = 'team_builder.edit_project'
 
     def form_valid(self, form, *args, **kwargs):
         new_position = form.instance
@@ -233,22 +236,28 @@ class PositionDetailView(DetailView):
         return context
 
 
-class PositionUpdateView(LoginRequiredMixin, UpdateView):
+class PositionUpdateView(LoginRequiredMixin,
+                         PermissionRequiredMixin,
+                         UpdateView):
     template_name = 'positions/position_update.html'
     model = Position
     fields = ['position_name', 'head_count', 'related_skills', ]
     queryset = Position.objects.all()
+    permission_required = 'team_builder.edit_project'
 
     def get_object(self, queryset=None):
         obj = get_object_or_404(Position, pk=self.kwargs['position_id'])
         return obj
 
 
-class PositionDeleteView(LoginRequiredMixin, DeleteView):
+class PositionDeleteView(LoginRequiredMixin,
+                         PermissionRequiredMixin,
+                         DeleteView):
     model = Position
     fields = ['position_name', 'related_skills', ]
     queryset = Position.objects.all()
     template_name = 'positions/position_confirm_delete.html'
+    permission_required = 'team_builder.edit_project'
 
     def get_object(self, queryset=None):
         obj = get_object_or_404(Position, pk=self.kwargs['position_id'])
@@ -341,7 +350,7 @@ class SkillDetailView(DetailView):
         return context
 
 
-class SkillCreateView(CreateView):
+class SkillCreateView(LoginRequiredMixin, CreateView):
     model = Skill
     template_name = 'skills/skill_add.html'
     form_class = SkillCreateForm
@@ -408,7 +417,7 @@ class SearchView(ListView):
 
 
 def handler404(request, exception):
-    '''
+    """
     :return: Render custom 404 template
-    '''
+    """
     return render_to_response('404.html')

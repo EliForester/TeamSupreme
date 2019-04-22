@@ -7,6 +7,7 @@ from django.forms import (FileInput, Form, ImageField, ModelForm,
 
 from .models import Position, Project, Skill, User
 
+# Formatting validations for avatar
 VALID_IMG_FORMATS = ['image/jpeg', 'image/png', 'image/gif']
 VALID_IMG_WIDTH = 200
 VALID_IMG_HEIGHT = 300
@@ -24,10 +25,14 @@ class UserProfileUpdateForm(ModelForm):
     avatar = ImageField(required=False, widget=FileInput)
 
     def clean_avatar(self):
-        '''
-        Make sure that avatar fits defined file format and size
+        """
+        Make sure that submitted avatar fits defined file format and size
+        Using:  VALID_IMG_FORMATS
+                VALID_IMG_WIDTH
+                VALID_IMG_HEIGHT
+                MAX_IMG_SIZE
         :return: avatar file
-        '''
+        """
         avatar = self.cleaned_data.get('avatar', False)
         if avatar and isinstance(avatar, UploadedFile):
             if avatar.size > MAX_IMG_SIZE * 1024:

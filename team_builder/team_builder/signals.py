@@ -8,7 +8,7 @@ from .models import Participant
 
 @receiver(pre_save, sender=Participant)
 def participant_notifier(sender, **kwargs):
-    '''
+    """
     Checks presave Participant object.
     If new: (no record -> new record)
         send notice to project owner that someone wants to join
@@ -18,7 +18,7 @@ def participant_notifier(sender, **kwargs):
         send notice to participant that appication was rejected
     If updated from anything->left:
         send notice to project owner that someone left
-    '''
+    """
     participant = kwargs['instance']
     try:
         # If existing model was approved then send to applicant

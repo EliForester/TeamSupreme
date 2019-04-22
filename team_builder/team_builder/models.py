@@ -10,12 +10,12 @@ from django.utils import timezone
 
 
 def get_file_path(instance, filename):
-    '''
+    """
     Formatting file path of avatar data
     :param instance: Model instance
     :param filename: Name of uploaded file
     :return: File path for upload_to
-    '''
+    """
     ext = filename.split('.')[-1]
     today = date.today().strftime("%Y/%m/%d")
     filename = "%s.%s" % (uuid.uuid4(), ext)
@@ -111,6 +111,9 @@ class Position(models.Model):
         return reverse('position_detail', args=[self.id])
 
     def get_member_count(self):
+        """
+        :return: Number of participants for a given position
+        """
         return self.participant_set.filter(status='member').count()
 
 

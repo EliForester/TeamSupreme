@@ -11,34 +11,31 @@ I.e., project owner can edit the project, etc.
 
 @rules.predicate
 def is_project_owner(user, project):
-    '''
-
+    """
     :param user: User object from template
     :param project: Project object from template
     :return: True if user is project owner, else False
-    '''
+    """
     return project.owner == user
 
 
 @rules.predicate
 def is_position_owner(user, position):
-    '''
-
+    """
     :param user: User object from template
     :param position: Position object from template
     :return: True if user is project owner, else False
-    '''
+    """
     return position.project.owner == user
 
 
 @rules.predicate
 def is_member_or_pending(user, position):
-    '''
-
+    """
     :param user: User object from template
     :param position: Position object from template
     :return: True if the user is retired from a position, else False
-    '''
+    """
     for participant in position.participant_set.all():
         if participant.user == user:
             if participant.status in ['member', 'pending']:
@@ -48,12 +45,11 @@ def is_member_or_pending(user, position):
 
 @rules.predicate
 def is_participant(user, position):
-    '''
-
+    """
     :param user: User object from template
     :param position: Position object from template
     :return: True if the user is already in position.participants, else False
-    '''
+    """
     return user in position.participants.all()
 
 
