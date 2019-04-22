@@ -205,18 +205,19 @@ class ProjectUpdateView(LoginRequiredMixin,
 
 
 class PositionAddView(LoginRequiredMixin,
-                      PermissionRequiredMixin,
                       CreateView):
     template_name = 'positions/position_create.html'
     model = Position
     fields = ['position_name', 'head_count', 'related_skills', ]
-    permission_required = 'team_builder.edit_delete_position'
 
     def form_valid(self, form, *args, **kwargs):
         new_position = form.instance
         project = get_object_or_404(Project, pk=self.kwargs['project_id'])
-        new_position.project = project
-        new_position.save()
+        if self.request.user == project.owner:
+            new_position.project = project
+            new_position.save()
+        else:
+            return Http404('Must be project owner')
         return super(PositionAddView, self).form_valid(form)
 
 
