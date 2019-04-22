@@ -295,7 +295,9 @@ def participant_update_view(request, **kwargs):
             participant.save()
             return HttpResponseRedirect(
                 reverse('project_detail',
-                        kwargs={'project_id': participant.position.project.id}))
+                        kwargs={
+                            'project_id': participant.position.project.id
+                        }))
         else:
             return Http404('Only owner can approve')
     elif action in action_map.keys():
@@ -306,7 +308,9 @@ def participant_update_view(request, **kwargs):
             participant.save()
             return HttpResponseRedirect(
                 reverse('project_detail',
-                        kwargs={'project_id': participant.position.project.id}))
+                        kwargs={
+                            'project_id': participant.position.project.id
+                        }))
         else:
             return Http404('Unauthorized action')
     else:
@@ -331,10 +335,11 @@ class SkillDetailView(DetailView):
         related_user_context = {}
         for user in related_users:
             related_user_context[user] = {}
-            related_user_context[user]['active_positions'] = user.position_set.filter(
-                participant__status='member')
+            related_user_context[user]['active_positions'] = \
+                user.position_set.filter(participant__status='member')
         context['related_users'] = related_user_context
         return context
+
 
 class SkillCreateView(CreateView):
     model = Skill
