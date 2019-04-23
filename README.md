@@ -30,3 +30,9 @@ Pillow==5.4.1
 pytz==2018.9
 rules==2.0.1
 ```
+
+### Notes
+
+* To add a position, create a project and save it, then when you edit the project you can add positions
+* Similar to above, create a position and save it, then you can add skills
+* The skill set is the list of all skills

@@ -22,7 +22,7 @@ class SignUpView(SuccessMessageMixin, CreateView):
     form_class = UserCreateForm
     template_name = 'registration/signup.html'
     success_url = reverse_lazy('home')
-    success_message = 'User created! Please log in.'
+    success_message = 'User created! Please sign in.'
 
 
 class SignInView(LoginView):
