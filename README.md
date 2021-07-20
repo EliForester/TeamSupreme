@@ -22,13 +22,15 @@ Created on Python 3
 
 requirements.txt
 ```
-Django==2.1.7
+asgiref==3.4.1
+Django==2.2.24
 django-model-utils==3.1.2
 django-notifications-hq==1.5.0
 jsonfield==2.0.2
-Pillow==5.4.1
+Pillow==8.3.1
 pytz==2018.9
 rules==2.0.1
+sqlparse==0.4.1
 ```
 
 ### Notes
